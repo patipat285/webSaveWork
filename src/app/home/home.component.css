@@ -1,0 +1,10 @@
+.bg {
+  width: 100%;
+  height: 100vh;
+  background-image:url(https://cdn.hipwallpaper.com/i/71/86/L5jZVJ.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 1.0;
+
+}
