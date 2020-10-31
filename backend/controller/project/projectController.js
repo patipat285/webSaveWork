@@ -18,17 +18,14 @@ router.get("/getDataProject", (req, res) => {
 
 
 router.get("/getDataProjectforupdate/:_id", (req, res) => {
+  console.log("req.params._id", req.params._id)
   projectModel.findById(req.params._id, (err, data) => {
     if (err) {
       res.send({
         result: "failed"
       });
     } else {
-      res.send({
-        result : "success",
-        dataProject : data
-
-      });
+      res.send(data);
     }
   });
 });
@@ -93,15 +90,15 @@ router.delete("/deleteDataProject/:_id", (req, res) => {
 
 
 router.post("/searchListProject", async (req, res) => {
+console.log("req", req.body)
   try {
-
     let data = {};
     if(req.body.projectName) {
       data.projectName =  new RegExp (req.body.projectName,"i")
     }
-
-    let responseData = await mongoservice.findsearch(req, projectModel, data);
-    res.send(responseData)
+    projectModel.find(data,(err , data) =>{
+    res.send(data)
+    });
 
   } catch (error) {
     console.log("error", error)
@@ -110,17 +107,6 @@ router.post("/searchListProject", async (req, res) => {
 
 });
 
-
-// router.get("/getAllDataProject", async (req, res) => {
-//   try {
-//    let responseData = await mongoservice.findAllCustomer(req, projectModel);
-//    res.send(responseData)
-
-//   } catch (error) {
-//     console.log(error)
-//     res.send('error')
-//   }
-// });
 
 
 

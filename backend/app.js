@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+
 require("../backend/config/db");
 
 app.use(bodyParser.json());
@@ -17,7 +18,16 @@ app.use(function(req, res, next) {
 
 
 let apiProject = require("./controller/project/index");
-app.use("/api/project", apiProject);
+app.use("/project", apiProject);
+
+
+
+let apiJobtype = require("./controller/jobtype/index")
+app.use("/jobtype",apiJobtype)
+
+
+
+
 
 
 app.listen(3000, () => {

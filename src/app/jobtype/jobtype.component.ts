@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ProjectService } from './../../../service/project.service';
+import { ConfirmationService } from 'primeng/api';
+
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-jobtype',
@@ -9,25 +14,18 @@ export class JobtypeComponent implements OnInit {
 
 
 
-  showModalBox = false;
-  display: boolean = false;
 
-  constructor() { }
+  constructor( private ProjectService: ProjectService,) { }
 
 
 
-  ngOnInit() {}
-
-
-  fnCreateAndEditJobtype(type){
-    if(type){
-      if(type === 'create'){
-        this.display = true;
-      }else if(type === 'edit'){
-        this.display = true;
-      }
-    }
+  ngOnInit() {
 
   }
+
+
+
+
+
 
 }

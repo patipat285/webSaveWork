@@ -26,11 +26,10 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#about">PROJECT</a>
+            <a class="nav-link js-scroll-trigger"routerLink="/project">PROJECT</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" routerLink="/jobtype"
-              >JOB TYPE</a
+            <a class="nav-link js-scroll-trigger" routerLink="/jobtype" >JOB TYPE</a
             >
           </li>
           <li class="nav-item">
@@ -56,10 +55,12 @@
                 <label for="inputEmail3" class="col-form-label">Project</label>
                 <div class="col-sm-10">
                   <input
-                    type="email"
+                    type="text"
                     class="form-control"
-                    id="inputEmail3"
+                    id="textSearchProjectname"
                     placeholder="search project"
+                    [(ngModel)]="searchProjectName"
+                    name="textSearchProjectname"
                   />
                   <i class="fas fa-search" aria-hidden="true"></i>
                 </div>
@@ -71,9 +72,9 @@
 
         <div class="row">
           <div class="col text-center">
-            <button type="button" class="btn btn-primary">Search</button>
+            <button (click)="fnSearchDataProject()" type="button" class="btn btn-primary">Search</button>
             <span>&nbsp;&nbsp;</span>
-            <button type="button" class="btn btn-warning">Clear</button>
+            <button (click)="clickClear()" type="button" class="btn btn-warning">Clear</button>
           </div>
         </div>
       </div>
@@ -81,111 +82,77 @@
 
     <hr />
 
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-6"></div>
-          <div class="col-12">
-            <div>
-              <button class="btn-sm btn-danger">delete for select</button>
-              <button
-                (click)="fnCreateAndEditProject()"
-                class="btn-sm btn-primary btn float-right"
-              >
-                Create Project
-              </button>
-            </div>
-            <hr />
+    <div class="row">
+      <div class="col-6"></div>
+      <div class="col-12">
 
-            <div class="container-fluid">
-              <!-- <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th width="5%">No.</th>
-                    <th>Project Name</th>
-                    <th>manage</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <tr *ngFor="let data of dataListProject; let i = index">
-                    <th>{{ i + 1 }}</th>
-                    <td>{{ data.projectName }}</td>
-                    <td width="15%">
-                      <button
-                        (click)="confirmDelete()"
-                        class="btn-sm btn-danger"
-                      >
-                        Delete
-                      </button>
-                      <span>&nbsp;</span>
-                      <button
-                        (click)="fnCreateAndEditProject()"
-                        class="btn-sm btn-success"
-                      >
-                        Edit
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table> -->
-
-
-              <p-table
-              styleClass="p-datatable-sm p-datatable-gridlines"
-              [value]="dataListProject"
-              [paginator]="true"
-              [rows]="10"
-              [showCurrentPageReport]="true"
-              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-              [rowsPerPageOptions]="[10,25,50]"
-              [autoLayout]="true"
-              [customSort]="true"
-              >
-              <ng-template pTemplate="header">
-                  <tr>
-                      <th style="width: 10%;">No</th>
-                      <th >Name Project</th>
-                  </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-data let-i="rowIndex">
-                  <tr>
-                      <td>{{i + 1}}</td>
-                      <td>{{data.projectName}}</td>
-
-                  </tr>
-              </ng-template>
-          </p-table>
-
-
-
-
-
-
-
-            </div>
-
-            <br />
+        <p-toolbar >
+          <div class="p-toolbar-group-left"></div>
+          <div class="p-toolbar-group-right">
+            <p-button
+              class="p-button-sm"
+              (click)="fnCreateAndEditProject()"
+              label="Create Project"
+              icon="pi pi-plus"
+            >
+          </p-button>
           </div>
+        </p-toolbar>
+
+
+        <hr />
+
+        <div class="card">
+          <p-table
+            styleClass="p-datatable-sm p-datatable-gridlines"
+            [resizableColumns]="true"
+            [value]="dataListProject"
+            [paginator]="true"
+            [rows]="20"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[20, 50, 100]"
+            [autoLayout]="true"
+            [customSort]="true"
+            [style]="{ 'min-width': '50px' }"
+            [responsive]="true"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 10%" pSortableColumn="No">No</th>
+                <th pSortableColumn="project Name">Project Name</th>
+                <th style="width: 10%" pSortableColumn="Manage">Manage</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-i="rowIndex">
+              <tr>
+                <td>{{ i + 1 }}</td>
+                <td>{{ data.projectName }}</td>
+                <td>
+                  <button
+
+                    pButton
+                    pRipple
+                    icon="pi pi-pencil"
+                    class="p-button-rounded p-button-success p-mr-2"
+                    (click)="fnEditProject(data._id)"
+                  ></button>
+                  <span>&nbsp;&nbsp;</span>
+                  <button
+
+                    pButton
+                    pRipple
+                    icon="pi pi-trash"
+                    class="p-button-rounded p-button-danger"
+                    (click)="fnDeleteProject(data._id)"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
         </div>
 
-        <!-- <div>
-          <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-              <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1">Previous</a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-              </li>
-            </ul>
-          </nav>
-        </div> -->
-
-
+        <br />
       </div>
     </div>
   </div>
@@ -203,7 +170,7 @@
 
 <!-- start popup create new project-->
 <p-dialog
-  header="Create Project"
+  [header]="headerPopup"
   [(visible)]="displayModal"
   [modal]="true"
   [style]="{ width: '50vw' }"
@@ -211,6 +178,7 @@
   [draggable]="false"
   [resizable]="false"
   [dismissableMask]="true"
+  (onHide)="closeModal()"
 >
   <div class="card-body">
     <div class="row">
@@ -227,16 +195,22 @@
               />
             </div>
           </div>
-          <div style="text-align: center">
+          <div class="col-12" style="text-align: left">
             <button
               type="submit"
-              (click)="fnSubmitCreate('create')"
+              (click)="fnSubmit(this.idProject)"
               class="btn btn-primary"
             >
               Save
             </button>
             <span>&nbsp;</span>
-            <button class="btn btn-primary" type="submit">Cancel</button>
+            <button
+              class="btn btn-primary"
+              type="submit"
+              (click)="closeModal()"
+            >
+              Cancel
+            </button>
           </div>
         </form>
       </div>

@@ -3,9 +3,7 @@ let router = express.Router();
 
 
 //load controller
-const projectController = require('./projectController');
-router.use('/',projectController);
-
-
+const jobtypeController = require('./jobtypeController');
+router.use('/',jobtypeController);
 
 module.exports = router;
