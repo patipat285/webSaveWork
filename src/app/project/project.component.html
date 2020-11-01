@@ -72,9 +72,11 @@
 
         <div class="row">
           <div class="col text-center">
-            <button (click)="fnSearchDataProject()" type="button" class="btn btn-primary">Search</button>
+            <button (click)="fnSearchDataProject()" pButton type="button" label="Search" icon="pi pi-search" class="p-button-sm "></button>
+            <!-- <button (click)="fnSearchDataProject()" icon="pi pi-trash" type="button" class="btn btn-primary">Search</button> -->
             <span>&nbsp;&nbsp;</span>
-            <button (click)="clickClear()" type="button" class="btn btn-warning">Clear</button>
+            <button (click)="clickClear()" pButton type="button" label="Clear" icon="pi pi-times-circle" class="p-button-sm p-button-danger"></button>
+            <!-- <button (click)="clickClear()" type="button" class="btn btn-warning"><i class="fa fa-close"></i>Clear</button> -->
           </div>
         </div>
       </div>
@@ -117,11 +119,11 @@
             [style]="{ 'min-width': '50px' }"
             [responsive]="true"
           >
-            <ng-template pTemplate="header">
-              <tr>
-                <th style="width: 10%" pSortableColumn="No">No</th>
-                <th pSortableColumn="project Name">Project Name</th>
-                <th style="width: 10%" pSortableColumn="Manage">Manage</th>
+            <ng-template  pTemplate="header">
+              <tr >
+                <th style="width: 10%" >No</th>
+                <th >Project Name</th>
+                <th style="width: 10%" >Manage</th>
               </tr>
             </ng-template>
             <ng-template pTemplate="body" let-data let-i="rowIndex">
@@ -196,21 +198,9 @@
             </div>
           </div>
           <div class="col-12" style="text-align: left">
-            <button
-              type="submit"
-              (click)="fnSubmit(this.idProject)"
-              class="btn btn-primary"
-            >
-              Save
-            </button>
+            <button (click)="fnSubmit(this.idProject)" label="Save" pButton type="button"  icon="pi pi pi-save" class="p-button-sm "></button>
             <span>&nbsp;</span>
-            <button
-              class="btn btn-primary"
-              type="submit"
-              (click)="closeModal()"
-            >
-              Cancel
-            </button>
+            <button (click)="closeModal()" pButton label="Cancel" type="button" icon="pi pi-times-circle" class="p-button-sm p-button-danger "></button>
           </div>
         </form>
       </div>

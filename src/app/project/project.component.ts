@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class ProjectComponent implements OnInit {
 
   displayModal: boolean = false;
-  projectName: any = {};
+  projectName: any ;
   dataListProject: any;
   idProject: any;
   headerPopup = ''
