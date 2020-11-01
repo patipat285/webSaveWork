@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmationService } from 'primeng/api';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -32,6 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
     ConfirmDialogModule,
     FormsModule,
     HttpClientModule,
+    FontAwesomeModule,
 
 
 
