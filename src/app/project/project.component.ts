@@ -98,7 +98,7 @@ export class ProjectComponent implements OnInit {
   fnGetDataProject() {
     this.ProjectService.getAllDataProject().subscribe((data) => {
       this.dataListProject = data;
-      console.log(' this.dataListProject', this.dataListProject);
+
     });
   }
 

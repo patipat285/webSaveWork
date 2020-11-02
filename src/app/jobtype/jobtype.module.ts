@@ -13,6 +13,7 @@ import {RatingModule} from 'primeng/rating';
 import {FileUploadModule} from 'primeng/fileupload';
 import {TabMenuModule} from 'primeng/tabmenu';
 import {ButtonModule} from 'primeng/button';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -31,6 +32,7 @@ import {ButtonModule} from 'primeng/button';
     FileUploadModule,
     TabMenuModule,
     ButtonModule,
+    FormsModule
   ]
 })
 export class JobtypeModule { }

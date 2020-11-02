@@ -68,6 +68,58 @@ export class ProjectService {
   //------------------------------------jobtype---------------------------------------//
 
 
+  createJobType(data: any) {
+    try {
+      return this.http.post(this.url + '/jobType/createJobType', data);
+    } catch (error) {
+      console.log(' error', error);
+    }
+  }
+
+  getAllDataJobType() {
+    try {
+      return this.http.get(this.url + '/jobType/getDataJobtype');
+    } catch (error) {
+      console.log(' error', error);
+    }
+  }
+
+
+  getDataJobTypeByIdForUpdate(id) {
+    try {
+      return this.http.get(this.url + '/jobType/getDataJobTypeforupdate/' + id);
+    } catch (error) {
+      console.log('error',error );
+    }
+  }
+
+
+  updateDataJobType(id, data) {
+    try {
+      return this.http.put(this.url + '/jobType/updateJobType/' + id, data);
+    } catch (error) {
+      console.log(' error', error);
+    }
+  }
+
+
+
+  deleteDataJobType(id) {
+    try {
+      return this.http.delete(this.url + '/jobType/deleteDataJobType/' + id);
+    } catch (error) {
+      console.log(' error', error);
+    }
+  }
+
+  searchDataJobType(data) {
+    try {
+      return this.http.post(this.url + '/jobType/searchListJobType', data);
+    } catch (error) {
+      console.log(' error', error);
+    }
+  }
+
 
 
   //--------------------------------end jobtype---------------------------------------//
