@@ -1,16 +1,12 @@
 body{
-background-color: #ffffff; 
+background-color: #ffffff;
 width: 100%;
-
-  /* height: 100vh;  */
-
 }
 
 
 
 header {
   padding: 100px 0 100px;
-  /* background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../../savework/src/assets/pic/header-background.jpg"); */
   background-image: url("../../savework/src/assets/pic/header-background.jpg");
   height: 50%;
   background-position: center;
@@ -22,26 +18,21 @@ header {
 
 #mainNav{
   background-color: #00bfd8;
-  /* background-image:  url("https://c4.wallpaperflare.com/wallpaper/971/1011/721/blue-pastel-wallpaper-preview.jpg"); */
   /* position: fixed; */
   top: 0;
   right: 0;
   left: 0;
-  z-index: 1030;
-
-
+  /* z-index: 1030; */
 }
 
+
 p{
-  /* font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
- 
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 
 
 #footer{
    background-color: #00bfd8;
-   /* background-image:  url("https://www.olalekan.website/images/blackbgg.jpg"); */
 }
 
 .p-datatable.p-datatable-gridlines .p-datatable-thead > tr > th {
@@ -62,8 +53,6 @@ margin-top: 2px;
 margin-right: 60%;
 font-size: 57px;
 }
-
-
 
 
 

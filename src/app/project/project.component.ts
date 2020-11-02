@@ -1,4 +1,4 @@
-import { ProjectService } from './../../../service/project.service';
+import { RequestService } from '../../../service/request.service';
 import { ConfirmationService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
@@ -21,7 +21,7 @@ export class ProjectComponent implements OnInit {
 
   constructor(
     private confirmationService: ConfirmationService,
-    private ProjectService: ProjectService,
+    private RequestService: RequestService,
     private router: Router
   ) {}
 
@@ -36,6 +36,7 @@ export class ProjectComponent implements OnInit {
   }
 
   fnSubmit(id) {
+    console.log("ProjectComponent -> fnSubmit -> id", id)
     this.displayModal = false;
     let data = {
       projectName: this.projectName
@@ -57,7 +58,7 @@ export class ProjectComponent implements OnInit {
               this.idProject
             );
 
-            this.ProjectService.updateDataProject(
+            this.RequestService.updateDataProject(
               this.idProject,
               data
             ).subscribe((data) => {
@@ -82,7 +83,7 @@ export class ProjectComponent implements OnInit {
       }).then((result) => {
         console.log('ProjectComponent -> fnSubmitCreate -> result', result);
         if (result.value === true) {
-          this.ProjectService.createProject(data).subscribe((data) => {
+          this.RequestService.createProject(data).subscribe((data) => {
             console.log('Log data', data);
             Swal.fire('Success!', 'Create Project Success', 'success');
             this.projectName = '';
@@ -96,7 +97,7 @@ export class ProjectComponent implements OnInit {
 
   //Get aLL data project
   fnGetDataProject() {
-    this.ProjectService.getAllDataProject().subscribe((data) => {
+    this.RequestService.getAllDataProject().subscribe((data) => {
       this.dataListProject = data;
 
     });
@@ -110,7 +111,7 @@ export class ProjectComponent implements OnInit {
     this.displayModal = true;
     this.idProject = id;
     if (this.idProject) {
-      this.ProjectService.getDataProjectByIdForUpdate(this.idProject).subscribe(
+      this.RequestService.getDataProjectByIdForUpdate(this.idProject).subscribe(
         (data) => {
         this.projectName = data['projectName'];
         }
@@ -131,7 +132,7 @@ export class ProjectComponent implements OnInit {
     confirmButtonText: "Yes, delete it!",
   }).then((result) => {
     if (result.value) {
-      this.ProjectService.deleteDataProject(id).subscribe((res) => {
+      this.RequestService.deleteDataProject(id).subscribe((res) => {
         Swal.fire("Deleted!", "delete project success", "success");
         this.fnGetDataProject();
       });
@@ -145,7 +146,7 @@ export class ProjectComponent implements OnInit {
     let searchProject = {
       projectName: this.searchProjectName
     };
-    this.ProjectService.searchDataProject(searchProject).subscribe(
+    this.RequestService.searchDataProject(searchProject).subscribe(
       (data) => {
         this.dataListProject = data ;
       }

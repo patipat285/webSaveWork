@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectService } from './../../../service/project.service';
+import { RequestService } from '../../../service/request.service';
 import { ConfirmationService } from 'primeng/api';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -26,7 +26,7 @@ export class JobtypeComponent implements OnInit {
 
 
 
-  constructor( private ProjectService: ProjectService,) { }
+  constructor( private RequestService: RequestService,) { }
 
 
 
@@ -45,6 +45,7 @@ export class JobtypeComponent implements OnInit {
 
 
   fnSubmit(id) {
+    console.log("JobtypeComponent -> fnSubmit -> id", id)
     this.displayModal = false;
     let data = {
       jobTypeName: this.jobTypeName,
@@ -62,7 +63,7 @@ export class JobtypeComponent implements OnInit {
       }).then((result) => {
         if (result.value === true) {
           if (this.idJobType) {
-            this.ProjectService.updateDataJobType(this.idJobType, data).subscribe((data) => {
+            this.RequestService.updateDataJobType(this.idJobType, data).subscribe((data) => {
               console.log('Log data', data);
               Swal.fire('Success!', 'Update Job Type Success', 'success');
              this.fnGetDataJobType()
@@ -81,7 +82,7 @@ export class JobtypeComponent implements OnInit {
         confirmButtonText: 'Yes, Create it!',
       }).then((result) => {
         if (result.value === true) {
-          this.ProjectService.createJobType(data).subscribe((data) => {
+          this.RequestService.createJobType(data).subscribe((data) => {
             Swal.fire('Success!', 'Create Job Type Success', 'success');
             this.jobTypeName = '';
             this.code = '';
@@ -97,7 +98,7 @@ export class JobtypeComponent implements OnInit {
 
   //Get aLL data project
   fnGetDataJobType() {
-    this.ProjectService.getAllDataJobType().subscribe((data) => {
+    this.RequestService.getAllDataJobType().subscribe((data) => {
       this.dataListJobType = data;
       console.log("JobtypeComponent -> fnGetDataJobType -> dataListJobType", this.dataListJobType)
 
@@ -112,7 +113,7 @@ export class JobtypeComponent implements OnInit {
     this.displayModal = true;
     this.idJobType = id;
     if (this.idJobType) {
-      this.ProjectService.getDataJobTypeByIdForUpdate(this.idJobType).subscribe(
+      this.RequestService.getDataJobTypeByIdForUpdate(this.idJobType).subscribe(
         (data) => {
         console.log("JobtypeComponent -> fnEditProject -> data", data)
         this.jobTypeName = data['jobTypeName'];
@@ -135,7 +136,7 @@ export class JobtypeComponent implements OnInit {
     confirmButtonText: "Yes, delete it!",
   }).then((result) => {
     if (result.value) {
-      this.ProjectService.deleteDataJobType(id).subscribe((res) => {
+      this.RequestService.deleteDataJobType(id).subscribe((res) => {
         Swal.fire("Deleted!", "delete Job Type success", "success");
         this.fnGetDataJobType();
       });
@@ -150,7 +151,7 @@ export class JobtypeComponent implements OnInit {
       jobTypeName: this.searchJobTypeName,
       code: this.searchCode
     };
-    this.ProjectService.searchDataJobType(searchJobType).subscribe(
+    this.RequestService.searchDataJobType(searchJobType).subscribe(
       (data) => {
       this.dataListJobType = data ;
       }
@@ -176,7 +177,7 @@ export class JobtypeComponent implements OnInit {
     this.displayModalDetail = true;
     this.idJobType = id;
     if(id){
-      this.ProjectService.getDataJobTypeByIdForUpdate(this.idJobType).subscribe(
+      this.RequestService.getDataJobTypeByIdForUpdate(this.idJobType).subscribe(
         (data) => {
         this.jobTypeNameDetail = data['jobTypeName'];
         this.codeDetail = data['code'];

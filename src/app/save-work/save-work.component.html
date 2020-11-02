@@ -6,7 +6,7 @@
 </header>
 
 <div class="body">
-  <!-- Navigation -->
+
 
   <nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
     <div class="container">
@@ -66,62 +66,88 @@
 
 
 
-  <br />
 
+  <br />
   <div class="container">
     <div class="card">
-      <div class="card-body">
+      <div class="card-body" >
         <h5 style="text-align: center; color: rgb(73, 73, 73)">
-          SEARCH JOB TYPE
+          SEARCH
         </h5>
         <br />
+
         <form>
           <div class="row justify-content-center">
             <div class="col-6">
               <div class="form-group row">
-                <label class="col-2 col-form-label">Job type</label>
+                <label class="col-3 col-form-label">Date From</label>
                 <div class="col">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="textJobtype"
-                    placeholder="search Job type"
-                    [(ngModel)]="searchJobTypeName"
-                    name="textSearchJobType"
-                  />
-                  <i class="fas fa-search" aria-hidden="true"></i>
+                  <p-calendar [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"  [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" inputId="navigators"></p-calendar>
                 </div>
               </div>
-              <br />
+
             </div>
           </div>
 
           <div class="row justify-content-center">
             <div class="col-6">
               <div class="form-group row">
-                 <label  class="col-2 col-form-label">Code</label>
+                 <label  class="col-3 col-form-label">Date To</label>
                 <div class="col">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="textCode"
-                    placeholder="search Code"
-                    name="textSearchCode"
-                    [(ngModel)]="searchCode"
-                  />
-                  <i class="fas fa-search" aria-hidden="true"></i>
+                  <p-calendar
+                  [style]="{'width':'100%'}"
+                  [inputStyle]="{'width':'100%'}"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  yearRange="2000:2030"
+                  inputId="navigators"
+                  >
+                </p-calendar>
                 </div>
               </div>
-              <br />
             </div>
           </div>
+
+          <div class="row justify-content-center">
+            <div class="col-6">
+              <div class="form-group row">
+                 <label  class="col-3 col-form-label">Project</label>
+                <div class="col" >
+                  <select class="custom-select" >
+                    <option style="color: gray;" selected >Please Choose Project...</option>
+                    <option *ngFor="let data of dataDropdownProject" >{{data.projectName}}</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row justify-content-center">
+            <div class="col-6">
+              <div class="form-group row">
+                 <label  class="col-3 col-form-label">Job Type</label>
+                <div class="col">
+                  <select class="custom-select" >
+                    <option style="color: gray;" selected >Please Choose Job Type...</option>
+                    <option *ngFor="let data of dataDropdownJobType" >{{data.jobTypeName}}</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
         </form>
+
+        <br>
+
 
         <div class="row">
           <div class="col text-center">
-            <button (click)="fnSearchDataJobType()"  pButton type="button" label="Search" icon="pi pi-search" class="p-button-sm "></button>
+            <button   pButton type="button" label="Search" icon="pi pi-search" class="p-button-sm "></button>
             <span>&nbsp;&nbsp;</span>
-            <button (click)="clickClear()" pButton type="button" label="Clear" icon="pi pi-times-circle" class="p-button-sm p-button-danger"></button>
+            <button  pButton type="button" label="Clear" icon="pi pi-times-circle" class="p-button-sm p-button-danger"></button>
           </div>
         </div>
 
@@ -141,7 +167,7 @@
               class="p-button-sm"
               label="Create Job Type"
               icon="pi pi-plus"
-              (click)="fnCreateAndEditJobtype()"
+              (click)="fnSaveWork()"
             >
           </p-button>
           </div>
@@ -154,7 +180,7 @@
           <p-table
             styleClass="p-datatable-sm p-datatable-gridlines"
             [resizableColumns]="true"
-            [value]="dataListJobType"
+
             [paginator]="true"
             [rows]="20"
             [showCurrentPageReport]="true"
@@ -182,13 +208,13 @@
                   <button
                     pButton
                     pRipple
-                    (click)="fnShowDetailData(data._id)"
+
                     icon="pi pi-info-circle"
                     class="p-button-rounded p-button-warning"
                   ></button>
                   <span>&nbsp;&nbsp;</span>
                   <button
-                    (click)="fnEditProject(data._id)"
+
                     pButton
                     pRipple
                     icon="pi pi-pencil"
@@ -196,7 +222,7 @@
                   ></button>
                   <span>&nbsp;&nbsp;</span>
                   <button
-                    (click)="fnDeleteJobType(data._id)"
+
                     pButton
                     pRipple
                     icon="pi pi-trash"
@@ -226,46 +252,82 @@
 
 <!-- start popup create new project-->
 <p-dialog
-[header]="headerPopup"
 [(visible)]="displayModal"
 [modal]="true"
-[style]="{ width: '50vw' }"
+[style]="{ width: '50%' }"
 [baseZIndex]="10000"
 [draggable]="false"
 [resizable]="false"
 [dismissableMask]="true"
-(onHide)="closeModal()"
+
 >
   <div class="card-body">
     <div class="row">
       <div class="col-12">
         <form>
           <div class="col-12">
+
+
             <div class="form-group">
-              <label for="">Job Type Name </label>
-              <input
-              type="text"
-              class="form-control"
-              name="textjobTypeName"
-              id="textjobTypeName"
-              [(ngModel)]="jobTypeName"
-            />
+              <label for="">Start Date Work <span style="color: red;">*</span></label>
+              <p-calendar
+              [style]="{'width':'100%'}"
+              [inputStyle]="{'width':'100%'}"
+              [monthNavigator]="true"
+              [yearNavigator]="true"
+              yearRange="2000:2030"
+              inputId="navigators"
+              [(ngModel)]="selectDate"
+              name="date"
+              >
+            </p-calendar>
+            </div>
+
+
+
+
+            <div class="form-group">
+              <label >Project <span style="color: red;">*</span></label>
+              <select class="custom-select" >
+                <option style="color: gray;" selected >Please Choose Project...</option>
+                <option *ngFor="let data of dataDropdownProject" >{{data.projectName}}</option>
+              </select>
+            </div>
+
+
+
+
+            <div class="form-group">
+              <label for="">Job Type <span style="color: red;">*</span></label>
+              <select class="custom-select" >
+                <option style="color: gray;" selected >Please Choose Job Type...</option>
+                <option *ngFor="let data of dataDropdownJobType" >{{data.jobTypeName}}</option>
+              </select>
             </div>
             <div class="form-group">
-              <label for="">Code</label>
+              <label for="">Detail <span style="color: red;">*</span></label>
               <input
                 type="text"
                 class="form-control"
                 name="textCode"
                 id="textCode"
-                [(ngModel)]="code"
+
               />
             </div>
+            <div class="form-group">
+              <label for="">In</label>
+              <p-calendar [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" [timeOnly]="true" inputId="timeonly"></p-calendar>
+            </div>
+            <div class="form-group">
+              <label for="">Out</label>
+              <p-calendar [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"  [timeOnly]="true" inputId="timeonly"></p-calendar>
+            </div>
+
           </div>
           <div class="col-12" style="text-align: left">
-            <button (click)="fnSubmit(this.idJobType)"  type="submit"  class="btn btn-primary">Save</button>
+            <button  (click)="fnSubbmitSaveWork()"     type="submit"  class="btn btn-primary">Save</button>
             <span>&nbsp;</span>
-            <button (click)="closeModal()" type="submit"  class="btn btn-primary">Cancel</button>
+            <button    type="submit"  class="btn btn-primary">Cancel</button>
           </div>
         </form>
       </div>
@@ -277,7 +339,6 @@
 
 <p-dialog
 header="Detail"
-[(visible)]="displayModalDetail"
 [modal]="true"
 [style]="{ width: '25vw' }"
 [baseZIndex]="10000"
@@ -288,13 +349,13 @@ header="Detail"
   <div class="form-group row">
     <label style="font-size: 15px;" class="col-sm-6 text-right control-label text-title"><b>Job Type Name :</b></label>
     <div class="col-sm-4">
-        <label style="font-size: 15px;" class="control-label text-data">{{jobTypeNameDetail}}</label>
+        <label class="control-label text-data"></label>
     </div>
 </div>
 <div class="form-group row">
-  <label style="font-size: 15px;" class="col-sm-6 text-right control-label text-title"><b>Code :</b></label>
+  <label class="col-sm-6 text-right control-label text-title"><b>Code :</b></label>
   <div class="col-sm-4">
-      <label style="font-size: 15px;" class="control-label text-data">{{codeDetail}}</label>
+      <label class="control-label text-data"></label>
   </div>
 </div>
 </div>
@@ -304,3 +365,4 @@ header="Detail"
   header="Confirmation"
   icon="pi pi-exclamation-triangle"
 ></p-confirmDialog>
+
