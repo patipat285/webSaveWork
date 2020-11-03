@@ -156,7 +156,7 @@
 
     <hr />
 
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-6"></div>
       <div class="col-12">
 
@@ -172,73 +172,155 @@
           </p-button>
           </div>
         </p-toolbar>
-
-
         <hr />
-
-        <div class="card">
-          <p-table
-            styleClass="p-datatable-sm p-datatable-gridlines"
-            [resizableColumns]="true"
-
-            [paginator]="true"
-            [rows]="20"
-            [showCurrentPageReport]="true"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [rowsPerPageOptions]="[20, 50, 100]"
-            [autoLayout]="true"
-            [customSort]="true"
-            [style]="{ 'min-width': '50px' }"
-            [responsive]="true"
-          >
-            <ng-template pTemplate="header">
-              <tr>
-                <th style="width: 10%" pSortableColumn="No">No</th>
-                <th >Job Type Name</th>
-                <th >Code</th>
-                <th style="width: 10%" pSortableColumn="Manage">Manage</th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-data let-i="rowIndex">
-              <tr>
-                <td>{{ i + 1 }}</td>
-                <td>{{ data.jobTypeName }}</td>
-                <td>{{data.code}}</td>
-                <td>
-                  <button
-                    pButton
-                    pRipple
-
-                    icon="pi pi-info-circle"
-                    class="p-button-rounded p-button-warning"
-                  ></button>
-                  <span>&nbsp;&nbsp;</span>
-                  <button
-
-                    pButton
-                    pRipple
-                    icon="pi pi-pencil"
-                    class="p-button-rounded p-button-success p-mr-2"
-                  ></button>
-                  <span>&nbsp;&nbsp;</span>
-                  <button
-
-                    pButton
-                    pRipple
-                    icon="pi pi-trash"
-                    class="p-button-rounded p-button-danger"
-                  ></button>
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
-        </div>
-
         <br />
       </div>
-    </div>
+    </div> -->
   </div>
+
+
+
+  <div class="container">
+
+    <dx-scheduler
+    [views]="['month']"
+    currentView="month"
+    [currentDate]="currentDate"
+    [height]="500"
+    (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
+    [dataSource]="dataListWork"
+    >
+    </dx-scheduler>
+
+    <!-- <dx-scheduler [dataSource]="dataSource"
+              [views]="['month']"
+              currentView="month"
+              [currentDate]="currentDate"
+              [firstDayOfWeek]="1"
+              [startDayHour]="8"
+              [endDayHour]="18"
+              [showAllDayPanel]="false"
+              [height]="600"
+              [groups]="['employeeID']"
+              resourceCellTemplate="resourceCellTemplate"
+              dataCellTemplate="dataCellTemplate">
+
+    <dxi-resource fieldExpr="employeeID"
+                  [allowMultiple]="false"
+                  [dataSource]="resourcesDataSource"
+                  label="Employee">
+    </dxi-resource>
+
+    <div *dxTemplate="let employee of 'resourceCellTemplate'">
+        <div class='name' [style.background]="employee.color">
+            <h2>{{employee.text}}</h2>
+        </div>
+        <div class='avatar'>
+            <img [src]="employee.data.avatar" />
+        </div>
+        <div class='info' [style.color]="employee.color">
+            Age: {{employee.data.age}}
+            <br />
+            <b>{{employee.data.discipline}}</b>
+        </div>
+    </div>
+
+    <div *dxTemplate="let cellData of 'dataCellTemplate'" class='employee-weekend' [ngClass]="markWeekEnd(cellData)">
+        <div class='day-cell' [ngClass]='markTraining(cellData)'>{{cellData.text}}</div>
+    </div>
+</dx-scheduler> -->
+
+
+
+    <!-- <nz-calendar
+    [(ngModel)]="selectedValueDate"
+    (nzSelectChange)="selectChange($event)"
+    [nzDateCell]="dataListWork">
+    <div *nzDateCell>Foo</div>
+  </nz-calendar> -->
+
+  <!-- <full-calendar  defaultView="dayGridMonth" [options]="calendarOptions"></full-calendar> -->
+
+  <!-- <nz-calendar
+  [nzDateCell]="dataListWork"
+  [(ngModel)]="selectedValueDate"
+  [(nzMode)]="mode"
+  (nzPanelChange)="panelChange($event)"
+  (nzSelectChange)="selectChange($event)">
+
+  <div *nzDateCell>{{dataListWork}}</div>
+</nz-calendar> -->
+
+<!-- <ng-template #dateCellTpl let-date><span>{{ date | date:'d'}}</span></ng-template> -->
+
+
+<br>
+
+    <p-table
+   styleClass="p-datatable-sm p-datatable-gridlines"
+   [resizableColumns]="true"
+   [value]="dataListWork"
+   [paginator]="true"
+   [rows]="20"
+   [showCurrentPageReport]="true"
+   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+   [rowsPerPageOptions]="[20, 50, 100]"
+   [autoLayout]="true"
+   [customSort]="true"
+   [style]="{ 'min-width': '50px' }"
+   [responsive]="true"
+ >
+   <ng-template pTemplate="header">
+     <tr>
+       <th>Date</th>
+       <th>Project</th>
+       <th>Type</th>
+       <th>Detail</th>
+       <th>In</th>
+       <th>Out</th>
+
+       <th style="width: 6%;">Manage</th>
+     </tr>
+   </ng-template>
+   <ng-template pTemplate="body" let-data let-i="rowIndex">
+     <tr>
+       <td>{{ data.date | date : 'yyyy-MM-dd' }}</td>
+       <td>{{data.project}}</td>
+       <td>{{data.jobType}}</td>
+       <td>{{data.detail}}</td>
+       <td>{{data.timeIn | date: "H:mm " }}</td>
+       <td>{{data.timeOut | date: "H:mm "}}</td>
+
+       <td>
+         <button
+           pButton
+           pRipple
+           icon="pi pi-info-circle"
+           class="p-button-rounded p-button-warning"
+         ></button>
+         <span>&nbsp;&nbsp;</span>
+         <button
+           pButton
+           pRipple
+           icon="pi pi-pencil"
+           class="p-button-rounded p-button-success p-mr-2"
+         ></button>
+         <span>&nbsp;&nbsp;</span>
+         <button
+           pButton
+           pRipple
+           icon="pi pi-trash"
+           class="p-button-rounded p-button-danger"
+         ></button>
+       </td>
+     </tr>
+   </ng-template>
+ </p-table>
+ </div>
 </div>
+
+
+<br>
 
 <!-- start footer-->
 <div
@@ -259,6 +341,7 @@
 [draggable]="false"
 [resizable]="false"
 [dismissableMask]="true"
+header="Save Work"
 
 >
   <div class="card-body">
@@ -266,69 +349,88 @@
       <div class="col-12">
         <form>
           <div class="col-12">
-
-
             <div class="form-group">
               <label for="">Start Date Work <span style="color: red;">*</span></label>
-              <p-calendar
+               <p-calendar
               [style]="{'width':'100%'}"
               [inputStyle]="{'width':'100%'}"
               [monthNavigator]="true"
               [yearNavigator]="true"
               yearRange="2000:2030"
               inputId="navigators"
-              [(ngModel)]="selectDate"
-              name="date"
-              >
+              [(ngModel)]="dataCreate.date"
+              name="date">
             </p-calendar>
+
             </div>
-
-
 
 
             <div class="form-group">
               <label >Project <span style="color: red;">*</span></label>
-              <select class="custom-select" >
+              <select name="dataproject" [(ngModel)]="dataCreate.project" class="custom-select" >
                 <option style="color: gray;" selected >Please Choose Project...</option>
-                <option *ngFor="let data of dataDropdownProject" >{{data.projectName}}</option>
+                <option *ngFor="let data of dataDropdownProject" value="{{data.projectName}}" >{{data.projectName}}</option>
               </select>
             </div>
-
-
 
 
             <div class="form-group">
               <label for="">Job Type <span style="color: red;">*</span></label>
-              <select class="custom-select" >
+              <select name="dataproject" class="custom-select" [(ngModel)]="dataCreate.jobType" >
                 <option style="color: gray;" selected >Please Choose Job Type...</option>
-                <option *ngFor="let data of dataDropdownJobType" >{{data.jobTypeName}}</option>
+                <option *ngFor="let data of dataDropdownJobType" value="{{data.code}}" >{{data.jobTypeName}}</option>
               </select>
             </div>
+
+
+
             <div class="form-group">
               <label for="">Detail <span style="color: red;">*</span></label>
-              <input
+              <textarea
                 type="text"
                 class="form-control"
-                name="textCode"
-                id="textCode"
-
-              />
+                name="textDetail"
+                id="textDetail"
+                rows="5"
+                [(ngModel)]="dataCreate.detail"
+              ></textarea>
             </div>
+
+
             <div class="form-group">
               <label for="">In</label>
-              <p-calendar [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" [timeOnly]="true" inputId="timeonly"></p-calendar>
-            </div>
-            <div class="form-group">
-              <label for="">Out</label>
-              <p-calendar [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"  [timeOnly]="true" inputId="timeonly"></p-calendar>
+               <p-calendar
+              name="timeIn"
+              [(ngModel)]="dataCreate.timeIn"
+              [style]="{'width':'100%'}"
+              [inputStyle]="{'width':'100%'}"
+              [showTime]="true"
+              hourFormat="24"
+              timeOnly="true"
+              inputId="timeonly">
+            </p-calendar>
             </div>
 
+
+            <div class="form-group">
+              <label for="">Out</label>
+              <p-calendar
+              name="timeOut"
+              [(ngModel)]="dataCreate.timeOut"
+              [style]="{'width':'100%'}"
+              [inputStyle]="{'width':'100%'}"
+              timeOnly="true"
+              inputId="timeonly">
+            </p-calendar>
+            </div>
           </div>
+
           <div class="col-12" style="text-align: left">
-            <button  (click)="fnSubbmitSaveWork()"     type="submit"  class="btn btn-primary">Save</button>
+            <button (click)="fnSubbmitSaveWork()" type="submit" class="btn btn-primary">Save</button>
             <span>&nbsp;</span>
-            <button    type="submit"  class="btn btn-primary">Cancel</button>
+            <button  type="submit" class="btn btn-primary">Cancel</button>
           </div>
+
         </form>
       </div>
     </div>

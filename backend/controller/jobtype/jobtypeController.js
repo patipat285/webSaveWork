@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const jobtypeModel = require("../../model/jobtype");
+const jobtypeModel = require("../../model/jobType");
 
 
 

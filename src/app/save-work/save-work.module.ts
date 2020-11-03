@@ -16,6 +16,14 @@ import {ButtonModule} from 'primeng/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {CalendarModule} from 'primeng/calendar';
 import {DropdownModule} from 'primeng/dropdown';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { NzCalendarModule } from 'ng-zorro-antd/calendar';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { DxButtonModule } from 'devextreme-angular';
+import { DxSchedulerModule} from 'devextreme-angular';
+import { DxAutocompleteModule, DxTemplateModule } from 'devextreme-angular';
+import { DxSwitchModule } from 'devextreme-angular';
+
 
 
 
@@ -36,7 +44,18 @@ import {DropdownModule} from 'primeng/dropdown';
     ButtonModule,
     FormsModule,
     CalendarModule,
-    DropdownModule
+    DropdownModule,
+    FullCalendarModule,
+    NzCalendarModule,
+    NzSelectModule,
+    DxSchedulerModule,
+    DxButtonModule,
+    DxAutocompleteModule,
+    DxSwitchModule
+
+
+
+
   ]
 })
 export class SaveWorkModule { }

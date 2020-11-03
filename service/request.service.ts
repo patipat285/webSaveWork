@@ -123,4 +123,80 @@ export class RequestService {
 
 
   //--------------------------------end jobtype---------------------------------------//
+
+
+
+
+ //--------------------------------start save work---------------------------------------//
+
+
+ saveWork(data: any) {
+  try {
+    return this.http.post(this.url + '/saveWork/createWork', data);
+  } catch (error) {
+    console.log(' error', error);
+  }
+}
+
+getAllDataWork() {
+  try {
+    return this.http.get(this.url + '/saveWork/getDataWork');
+  } catch (error) {
+    console.log(' error', error);
+  }
+}
+
+
+getDataWorkeByIdForUpdate(id) {
+  try {
+    return this.http.get(this.url + '/saveWork/getDataWorkforupdate/' + id);
+  } catch (error) {
+    console.log('error',error );
+  }
+}
+
+
+updateDataWork(id, data) {
+  try {
+    return this.http.put(this.url + '/saveWork/updateWork/' + id, data);
+  } catch (error) {
+    console.log(' error', error);
+  }
+}
+
+
+
+deleteDataWork(id) {
+  try {
+    return this.http.delete(this.url + '/saveWork/deleteDataWork/' + id);
+  } catch (error) {
+    console.log(' error', error);
+  }
+}
+
+searchDataWork(data) {
+  try {
+    return this.http.post(this.url + '/saveWork/searchListWork', data);
+  } catch (error) {
+    console.log(' error', error);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ //--------------------------------end save work---------------------------------------//
+
 }
