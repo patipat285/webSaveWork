@@ -108,9 +108,24 @@ router.post("/searchListWork", async (req, res) => {
 console.log("req", req.body)
   try {
     let data = {};
-    if(req.body.projectName) {
-      data.projectName =  new RegExp (req.body.projectName,"i")
+    if(req.body.searchFromDateFrom) {
+      data.date =  new RegExp (req.body.searchFromDateFrom,"i")
     }
+
+    // if(req.body.searchFromDateTo) {
+    //   data.date =  new RegExp (req.body.searchFromDateTo,"i")
+    // }
+
+    if(req.body.searchFromProject) {
+      data.project =  new RegExp (req.body.searchFromProject,"i")
+    }
+
+    if(req.body.searchFromJobType) {
+      data.jobType =  new RegExp (req.body.searchFromJobType,"i")
+    }
+
+
+    console.log("data", data)
     workModel.find(data,(err , data) =>{
     res.send(data)
     });

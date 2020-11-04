@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { RequestService } from '../../../service/request.service';
 import { CalendarOptions, FullCalendarComponent } from '@fullcalendar/angular';
+import Swal from 'sweetalert2';
 import * as moment from 'moment';
-import { NzCalendarMode } from 'ng-zorro-antd/calendar';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
+
 
 
 @Component({
@@ -20,24 +18,26 @@ export class SaveWorkComponent implements OnInit {
   displayModal = false;
   dataCreate: any = {};
   dataListWork: any;
-
+  sumHour :any;
+  sumTotalHour = 0;
+  // mode = 'month';
   selectedValueDate = new Date(Date());
-  date = new Date(2012, 11, 21);
-  mode: NzCalendarMode = 'month';
-  calendarOptions: any;
-  currentDate: Date = new Date();
+  headerPopup = ''
+  idWork :any;
+  searchFromDateFrom :any;
+
+  searchFromProject :any;
+  searchFromJobType :any;
+
+
+
 
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
 
   constructor(private RequestService: RequestService) {
-    this.calendarOptions = {
-      customButtons: {
 
-      },
-      initialView: 'dayGridMonth',
-      dateClick: this.handleDateClick.bind(this), // bind is important!
-      events: [],
-    };
+
+
   }
 
   ngOnInit() {
@@ -45,7 +45,12 @@ export class SaveWorkComponent implements OnInit {
     this.fnGetDataDropdownJobType();
     this.fnGetDataWork();
 
+
   }
+
+
+
+
 
   fnGetDropdownProject() {
     try {
@@ -71,61 +76,173 @@ export class SaveWorkComponent implements OnInit {
     this.displayModal = true;
   }
 
-  fnSubbmitSaveWork() {
+  fnSubbmitSaveWork(id) {
+    console.log("SaveWorkComponent -> fnSubbmitSaveWork -> id", id)
+    this.displayModal = false;
     let data: any;
     data = this.dataCreate;
-    console.log("SaveWorkComponent -> fnSubbmitSaveWork -> data", data)
-    this.RequestService.saveWork(data).subscribe((data) => {
-      this.fnGetDataWork();
-      this.dataCreate = {};
-      this.displayModal = false;
-    });
+    if (id) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: `Do you want to Update Work?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Update it!',
+      }).then((result) => {
+        if (result.value === true) {
+          if (this.idWork) {
+            this.RequestService.updateDataWork( this.idWork, data ).subscribe((data) => {
+              console.log('Log data', data);
+              Swal.fire('Success!', 'Update Work Success', 'success');
+              this.fnGetDataWork()
+            });
+          }
+        }
+      });
+    } else {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: `Do you want to Create Work?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Create it!',
+      }).then((result) => {
+
+        if (result.value === true) {
+          this.RequestService.saveWork(data).subscribe((data) => {
+            console.log('Log data', data);
+            Swal.fire('Success!', 'Create Work Success', 'success');
+            this.dataCreate = {};
+            this.fnGetDataWork()
+          });
+        }
+      });
+    }
   }
+
+
+
+
+  fnEditWork(id) {
+    console.log("SaveWorkComponent -> fnEditWork -> id", id)
+    this.headerPopup = 'Update Work'
+    this.displayModal = true;
+    this.idWork = id;
+    if (this.idWork) {
+      this.RequestService.getDataWorkeByIdForUpdate(this.idWork).subscribe(
+        (data) => {
+        console.log("SaveWorkComponent -> fnEditWork -> data", data)
+        this.dataCreate.date = moment(data['date']).format("DD-MM-YYYY");
+        this.dataCreate.detail = data['detail'];
+        this.dataCreate.jobType = data['jobType'];
+        this.dataCreate.project = data['project'];
+        this.dataCreate.timeIn =  moment(data['timeIn']).format("HH:mm");
+        this.dataCreate.timeOut = moment(data['timeOut']).format("HH:mm");
+        console.log("SaveWorkComponent -> fnEditWork -> this.dataCreate", this.dataCreate)
+        }
+      );
+    }
+  }
+
+
+
 
   //Get aLL data Work
   fnGetDataWork() {
     this.RequestService.getAllDataWork().subscribe((data) => {
       this.dataListWork = data;
-      let sumTimeIN = [];
-      let sumTimeOut = [];
-      let sum
-        for (const iterator of this.dataListWork) {
-         sum =   moment(iterator.timeIn).format("HH:mm") + (moment(iterator.timeOut).format("HH:mm"))
-          // sumTimeIN.push(moment(iterator.timeIn).format("HH:mm"))
-          // sumTimeOut.push(moment(iterator.timeOut).format("HH:mm"))
-        }
-        // const sum2 = sum.reduce((acc, time) => acc.add(moment.duration(time)), moment.duration());
-        // console.log([Math.floor(sum2.asHours()), sum2.minutes()].join(':'));
-        console.log("SaveWorkComponent -> fnGetDataWork -> sum", sum)
-        // console.log("SaveWorkComponent -> fnGetDataWork -> sum", sumTimeOut)
+      let sumtimeIN ;
+      let sumtimeOut;
+      let datalist
+      let sumTotal = 0 ;
+
+      for (datalist of this.dataListWork) {
+        sumtimeIN = moment(datalist.timeIn).format("yyyy-MM-DD HH:mm:ss")
+        sumtimeOut = moment(datalist.timeOut).format("yyyy-MM-DD HH:mm:ss")
+        this.sumHour = this.fnCalDiffHourFromTimeInTimeOut(new Date(sumtimeIN),new Date(sumtimeOut));
+        datalist.hour = this.sumHour
+        sumTotal = sumTotal + datalist.hour
+       this.sumTotalHour = sumTotal;
+      }
+
     });
   }
 
-  // selectChange(select: Date) {
-  //   this.dataCreate.date = select;
-  //   console.log(
-  //     'SaveWorkComponent -> selectChange -> this.dataCreate.date',
-  //     this.dataCreate.date
-  //   );
-  //   this.displayModal = true;
-  // }
 
-  // panelChange(event) {
-  //   console.log('SaveWorkComponent -> panelChange -> event', event);
-  // }
-
-  handleDateClick(arg) {
-    this.displayModal = true;
-    this.dataCreate.date = arg.date;
-  }
-
-  onAppointmentFormOpening(event){
-    event.cancel = true;
-    this.dataCreate.date = event.appointmentData.startDate;
-    this.displayModal = true;
-
+//คำนวน ชั่วโมงจาก เวลา เข้า-ออก
+fnCalDiffHourFromTimeInTimeOut(startDate, endDate) {
+  var diff = endDate.getTime() - startDate.getTime();
+  var days = Math.floor(diff / (60 * 60 * 24 * 1000));
+  var hours = Math.floor(diff / (60 * 60 * 1000)) - (days * 24);
+  return  hours-1;
 }
 
+//เลือกวันที่จากตาราง
+selectDate(event) {
+console.log("SaveWorkComponent -> selectDate -> event", event)
+
+this.headerPopup = 'Save Work'
+this.displayModal = true;
+this.dataCreate.date = event
+}
+
+
+fnDeleteWork(id){
+  Swal.fire({
+    title: "Are you sure?",
+    text: `Do you want to delete Work?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.value) {
+      this.RequestService.deleteDataWork(id).subscribe((res) => {
+        Swal.fire("Deleted!", "delete work success", "success");
+        this.fnGetDataWork();
+      });
+    }
+  });
+
+  }
+
+
+  closeModal(){
+    this.displayModal = false;
+    this.dataCreate = {};
+  }
+
+
+  fnSearchDataWork() {
+    let searchWork = {
+      searchFromDateFrom: this.searchFromDateFrom,
+
+      searchFromProject : this.searchFromProject,
+      searchFromJobType : this.searchFromJobType
+    };
+    this.RequestService.searchDataWork(searchWork).subscribe(
+      (data) => {
+      console.log("SaveWorkComponent -> fnSearchDataProject -> data", data)
+        this.dataListWork = data ;
+      }
+    );
+  }
+
+
+  clickClear(){
+    this.fnGetDataWork();
+    this.searchFromDateFrom = ''
+
+    this.searchFromProject = ''
+    this.searchFromJobType = ''
+    this.sumTotalHour = 0
+
+  }
 
 
 

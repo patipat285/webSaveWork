@@ -82,19 +82,32 @@
               <div class="form-group row">
                 <label class="col-3 col-form-label">Date From</label>
                 <div class="col">
-                  <p-calendar [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"  [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" inputId="navigators"></p-calendar>
+                  <p-calendar
+                  name="searchFromDateFrom"
+                  [(ngModel)]="searchFromDateFrom"
+                  [style]="{'width':'100%'}"
+                  [inputStyle]="{'width':'100%'}"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  yearRange="2000:2030"
+                  [dateFormat]="'dd-mm-yy'"
+                  inputId="navigators">
+                </p-calendar>
                 </div>
               </div>
 
             </div>
           </div>
 
-          <div class="row justify-content-center">
+          <!-- <div class="row justify-content-center">
             <div class="col-6">
               <div class="form-group row">
                  <label  class="col-3 col-form-label">Date To</label>
                 <div class="col">
                   <p-calendar
+                  name="searchFromDateTo"
+                  [(ngModel)]="searchFromDateTo"
+                  [dateFormat]="'dd-mm-yy'"
                   [style]="{'width':'100%'}"
                   [inputStyle]="{'width':'100%'}"
                   [monthNavigator]="true"
@@ -106,16 +119,16 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <div class="row justify-content-center">
             <div class="col-6">
               <div class="form-group row">
                  <label  class="col-3 col-form-label">Project</label>
                 <div class="col" >
-                  <select class="custom-select" >
-                    <option style="color: gray;" selected >Please Choose Project...</option>
-                    <option *ngFor="let data of dataDropdownProject" >{{data.projectName}}</option>
+                  <select name="searchFromProject" [(ngModel)]="searchFromProject" class="custom-select" >
+                    <option style="color: gray;" placeholder="Please Choose Project..." selected >Please Choose Project...</option>
+                    <option *ngFor="let data of dataDropdownProject" value="{{data.projectName}}"  >{{data.projectName}}</option>
                   </select>
                 </div>
               </div>
@@ -128,9 +141,9 @@
               <div class="form-group row">
                  <label  class="col-3 col-form-label">Job Type</label>
                 <div class="col">
-                  <select class="custom-select" >
-                    <option style="color: gray;" selected >Please Choose Job Type...</option>
-                    <option *ngFor="let data of dataDropdownJobType" >{{data.jobTypeName}}</option>
+                  <select class="custom-select" [(ngModel)]="searchFromJobType" name="searchFromJobType" >
+                    <option style="color: gray;"  placeholder="Please Choose Job Type..."  selected >Please Choose Job Type...</option>
+                    <option *ngFor="let data of dataDropdownJobType" value="{{data.code}}" >{{data.jobTypeName}}</option>
                   </select>
                 </div>
               </div>
@@ -145,9 +158,9 @@
 
         <div class="row">
           <div class="col text-center">
-            <button   pButton type="button" label="Search" icon="pi pi-search" class="p-button-sm "></button>
+            <button   (click)="fnSearchDataWork()" pButton type="button" label="Search" icon="pi pi-search" class="p-button-sm "></button>
             <span>&nbsp;&nbsp;</span>
-            <button  pButton type="button" label="Clear" icon="pi pi-times-circle" class="p-button-sm p-button-danger"></button>
+            <button (click)="clickClear()"  pButton type="button" label="Clear" icon="pi pi-times-circle" class="p-button-sm p-button-danger"></button>
           </div>
         </div>
 
@@ -178,83 +191,20 @@
     </div> -->
   </div>
 
-
-
   <div class="container">
-
-    <dx-scheduler
-    [views]="['month']"
-    currentView="month"
-    [currentDate]="currentDate"
-    [height]="500"
-    (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
-    [dataSource]="dataListWork"
-    >
-    </dx-scheduler>
-
-    <!-- <dx-scheduler [dataSource]="dataSource"
-              [views]="['month']"
-              currentView="month"
-              [currentDate]="currentDate"
-              [firstDayOfWeek]="1"
-              [startDayHour]="8"
-              [endDayHour]="18"
-              [showAllDayPanel]="false"
-              [height]="600"
-              [groups]="['employeeID']"
-              resourceCellTemplate="resourceCellTemplate"
-              dataCellTemplate="dataCellTemplate">
-
-    <dxi-resource fieldExpr="employeeID"
-                  [allowMultiple]="false"
-                  [dataSource]="resourcesDataSource"
-                  label="Employee">
-    </dxi-resource>
-
-    <div *dxTemplate="let employee of 'resourceCellTemplate'">
-        <div class='name' [style.background]="employee.color">
-            <h2>{{employee.text}}</h2>
-        </div>
-        <div class='avatar'>
-            <img [src]="employee.data.avatar" />
-        </div>
-        <div class='info' [style.color]="employee.color">
-            Age: {{employee.data.age}}
-            <br />
-            <b>{{employee.data.discipline}}</b>
-        </div>
-    </div>
-
-    <div *dxTemplate="let cellData of 'dataCellTemplate'" class='employee-weekend' [ngClass]="markWeekEnd(cellData)">
-        <div class='day-cell' [ngClass]='markTraining(cellData)'>{{cellData.text}}</div>
-    </div>
-</dx-scheduler> -->
-
-
-
-    <!-- <nz-calendar
+<div class="card">
+  <div class="card-body">
+    <nz-calendar
+    [nzFullscreen]="true"
     [(ngModel)]="selectedValueDate"
-    (nzSelectChange)="selectChange($event)"
-    [nzDateCell]="dataListWork">
-    <div *nzDateCell>Foo</div>
-  </nz-calendar> -->
+    (nzSelectChange)="selectDate($event)">
 
-  <!-- <full-calendar  defaultView="dayGridMonth" [options]="calendarOptions"></full-calendar> -->
+    </nz-calendar>
 
-  <!-- <nz-calendar
-  [nzDateCell]="dataListWork"
-  [(ngModel)]="selectedValueDate"
-  [(nzMode)]="mode"
-  (nzPanelChange)="panelChange($event)"
-  (nzSelectChange)="selectChange($event)">
+  </div>
+</div>
 
-  <div *nzDateCell>{{dataListWork}}</div>
-</nz-calendar> -->
-
-<!-- <ng-template #dateCellTpl let-date><span>{{ date | date:'d'}}</span></ng-template> -->
-
-
-<br>
+    <br>
 
     <p-table
    styleClass="p-datatable-sm p-datatable-gridlines"
@@ -276,6 +226,7 @@
        <th>Project</th>
        <th>Type</th>
        <th>Detail</th>
+       <th>MH</th>
        <th>In</th>
        <th>Out</th>
 
@@ -288,9 +239,9 @@
        <td>{{data.project}}</td>
        <td>{{data.jobType}}</td>
        <td>{{data.detail}}</td>
+       <td >{{data.hour}}</td>
        <td>{{data.timeIn | date: "H:mm " }}</td>
        <td>{{data.timeOut | date: "H:mm "}}</td>
-
        <td>
          <button
            pButton
@@ -300,6 +251,7 @@
          ></button>
          <span>&nbsp;&nbsp;</span>
          <button
+          (click)="fnEditWork(data._id)"
            pButton
            pRipple
            icon="pi pi-pencil"
@@ -307,6 +259,7 @@
          ></button>
          <span>&nbsp;&nbsp;</span>
          <button
+         (click)="fnDeleteWork(data._id)"
            pButton
            pRipple
            icon="pi pi-trash"
@@ -315,6 +268,18 @@
        </td>
      </tr>
    </ng-template>
+   <ng-template pTemplate="footer" >
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td style="color: rgb(82, 80, 80);">{{ this.sumTotalHour}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</ng-template>
  </p-table>
  </div>
 </div>
@@ -341,8 +306,8 @@
 [draggable]="false"
 [resizable]="false"
 [dismissableMask]="true"
-header="Save Work"
-
+[header]="headerPopup"
+(onHide)="closeModal()"
 >
   <div class="card-body">
     <div class="row">
@@ -359,7 +324,10 @@ header="Save Work"
               yearRange="2000:2030"
               inputId="navigators"
               [(ngModel)]="dataCreate.date"
-              name="date">
+              name="date"
+              [dateFormat]="'dd-mm-yy'"
+
+              >
             </p-calendar>
 
             </div>
@@ -376,7 +344,7 @@ header="Save Work"
 
             <div class="form-group">
               <label for="">Job Type <span style="color: red;">*</span></label>
-              <select name="dataproject" class="custom-select" [(ngModel)]="dataCreate.jobType" >
+              <select name="datajobtype" class="custom-select" [(ngModel)]="dataCreate.jobType" >
                 <option style="color: gray;" selected >Please Choose Job Type...</option>
                 <option *ngFor="let data of dataDropdownJobType" value="{{data.code}}" >{{data.jobTypeName}}</option>
               </select>
@@ -407,7 +375,9 @@ header="Save Work"
               [showTime]="true"
               hourFormat="24"
               timeOnly="true"
-              inputId="timeonly">
+              inputId="timeonly"
+              [dateFormat]="'HH:mm'"
+              >
             </p-calendar>
             </div>
 
@@ -415,20 +385,23 @@ header="Save Work"
             <div class="form-group">
               <label for="">Out</label>
               <p-calendar
+              hourFormat="24"
               name="timeOut"
               [(ngModel)]="dataCreate.timeOut"
               [style]="{'width':'100%'}"
               [inputStyle]="{'width':'100%'}"
               timeOnly="true"
-              inputId="timeonly">
+              inputId="timeonly"
+              [dateFormat]="'HH:mm'"
+              >
             </p-calendar>
             </div>
           </div>
 
           <div class="col-12" style="text-align: left">
-            <button (click)="fnSubbmitSaveWork()" type="submit" class="btn btn-primary">Save</button>
+            <button (click)="fnSubbmitSaveWork(this.idWork)" type="submit" class="btn btn-primary">Save</button>
             <span>&nbsp;</span>
-            <button  type="submit" class="btn btn-primary">Cancel</button>
+            <button (click)="closeModal()" type="submit" class="btn btn-primary">Cancel</button>
           </div>
 
         </form>
