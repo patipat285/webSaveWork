@@ -10,6 +10,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
     <div class="container">
       <button
+      routerLink="/"
       pButton
       pRipple
       label="Home"
@@ -72,13 +73,15 @@
           SEARCH PROJECT
         </h5>
         <br />
-        <form>
+        <form >
           <div class="row justify-content-center">
             <div class="col-6">
               <div class="form-group row">
                 <label for="inputEmail3" class="col-form-label">Project</label>
-                <div class="col-sm-10">
+                <div class="col-sm-10"  >
                   <input
+
+                    required
                     type="text"
                     class="form-control"
                     id="textSearchProjectname"
@@ -96,7 +99,7 @@
 
         <div class="row">
           <div class="col text-center">
-            <button (click)="fnSearchDataProject()" pButton type="button" label="Search" icon="pi pi-search" class="p-button-sm "></button>
+            <button (click)="fnSearchDataProject()" pButton type="button" label="Search" icon="pi pi-search" class="p-button-sm p-button-warning "></button>
             <!-- <button (click)="fnSearchDataProject()" icon="pi pi-trash" type="button" class="btn btn-primary">Search</button> -->
             <span>&nbsp;&nbsp;</span>
             <button (click)="clickClear()" pButton type="button" label="Clear" icon="pi pi-times-circle" class="p-button-sm p-button-danger"></button>
@@ -202,24 +205,27 @@
   [(visible)]="displayModal"
   [modal]="true"
   [style]="{ width: '50vw' }"
-  [baseZIndex]="10000"
   [draggable]="false"
   [resizable]="false"
   [dismissableMask]="true"
   (onHide)="closeModal()"
+  [baseZIndex]="100"
+  [autoZIndex]="false"
 >
   <div class="card-body">
     <div class="row">
       <div class="col-12">
-        <form>
+        <form >
           <div class="col-12">
             <div class="form-group">
-              <label for="">Project Name</label>
+              <label for="">Project Name <span style="color: red;">*</span></label>
               <input
+                [ngClass]="{'hasError': submitted === true && projectName === ''}"
                 type="text"
                 class="form-control"
                 [(ngModel)]="projectName"
                 name="textProjectName"
+                required
               />
             </div>
           </div>

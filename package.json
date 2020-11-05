@@ -37,6 +37,7 @@
     "body-parser": "^1.19.0",
     "bootstrap": "^4.5.0",
     "bootstrap-icons": "^1.1.0",
+    "date-holidays": "^1.8.1",
     "devextreme": "20.2.3",
     "devextreme-angular": "20.2.3",
     "express": "^4.17.1",

@@ -11,6 +11,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
     <div class="container">
       <button
+      routerLink="/"
       pButton
       pRipple
       label="Home"
@@ -71,7 +72,7 @@
   <div class="container">
     <div class="card">
       <div class="card-body" >
-        <h5 style="text-align: center; color: rgb(73, 73, 73)">
+        <h5 style="text-align: center;">
           SEARCH
         </h5>
         <br />
@@ -194,19 +195,25 @@
   <div class="container">
 <div class="card">
   <div class="card-body">
-    <nz-calendar
+    <!-- <nz-calendar
     [nzFullscreen]="true"
     [(ngModel)]="selectedValueDate"
     (nzSelectChange)="selectDate($event)">
+    </nz-calendar> -->
 
-    </nz-calendar>
+    <dx-scheduler
+    (onAppointmentFormOpening)="closeModalDevxtream($event)"
+    [views]='["month"]'
+    currentView="month"
+    [height]="600">
+  </dx-scheduler>
 
   </div>
 </div>
 
     <br>
 
-    <p-table
+  <p-table
    styleClass="p-datatable-sm p-datatable-gridlines"
    [resizableColumns]="true"
    [value]="dataListWork"
@@ -219,7 +226,7 @@
    [customSort]="true"
    [style]="{ 'min-width': '50px' }"
    [responsive]="true"
- >
+    >
    <ng-template pTemplate="header">
      <tr>
        <th>Date</th>
@@ -235,20 +242,20 @@
    </ng-template>
    <ng-template pTemplate="body" let-data let-i="rowIndex">
      <tr>
-       <td>{{ data.date | date : 'yyyy-MM-dd' }}</td>
+       <td>{{ data.date  }}</td>
        <td>{{data.project}}</td>
        <td>{{data.jobType}}</td>
        <td>{{data.detail}}</td>
        <td >{{data.hour}}</td>
-       <td>{{data.timeIn | date: "H:mm " }}</td>
-       <td>{{data.timeOut | date: "H:mm "}}</td>
+       <td>{{data.timeIn  }}</td>
+       <td>{{data.timeOut }}</td>
        <td>
-         <button
+         <!-- <button
            pButton
            pRipple
            icon="pi pi-info-circle"
            class="p-button-rounded p-button-warning"
-         ></button>
+         ></button> -->
          <span>&nbsp;&nbsp;</span>
          <button
           (click)="fnEditWork(data._id)"
@@ -302,7 +309,6 @@
 [(visible)]="displayModal"
 [modal]="true"
 [style]="{ width: '50%' }"
-[baseZIndex]="10000"
 [draggable]="false"
 [resizable]="false"
 [dismissableMask]="true"
@@ -317,16 +323,16 @@
             <div class="form-group">
               <label for="">Start Date Work <span style="color: red;">*</span></label>
                <p-calendar
-              [style]="{'width':'100%'}"
-              [inputStyle]="{'width':'100%'}"
-              [monthNavigator]="true"
-              [yearNavigator]="true"
-              yearRange="2000:2030"
-              inputId="navigators"
-              [(ngModel)]="dataCreate.date"
-              name="date"
-              [dateFormat]="'dd-mm-yy'"
-
+                [style]="{'width':'100%'}"
+                [inputStyle]="{'width':'100%'}"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                yearRange="2000:2030"
+                inputId="navigators"
+                [(ngModel)]="dataCreate.date"
+                name="date"
+                [dateFormat]="'dd-mm-yy'"
+                [inputStyleClass]="(submitted === true && dataCreate.date === null) ? 'hasError' : ''"
               >
             </p-calendar>
 
@@ -335,7 +341,7 @@
 
             <div class="form-group">
               <label >Project <span style="color: red;">*</span></label>
-              <select name="dataproject" [(ngModel)]="dataCreate.project" class="custom-select" >
+              <select [ngClass]="{'hasError': submitted === true && dataCreate.project === '' }" name="dataproject" [(ngModel)]="dataCreate.project" class="custom-select" >
                 <option style="color: gray;" selected >Please Choose Project...</option>
                 <option *ngFor="let data of dataDropdownProject" value="{{data.projectName}}" >{{data.projectName}}</option>
               </select>
@@ -344,7 +350,7 @@
 
             <div class="form-group">
               <label for="">Job Type <span style="color: red;">*</span></label>
-              <select name="datajobtype" class="custom-select" [(ngModel)]="dataCreate.jobType" >
+              <select [ngClass]="{'hasError': submitted === true && dataCreate.jobType === '' }" name="datajobtype" class="custom-select" [(ngModel)]="dataCreate.jobType" >
                 <option style="color: gray;" selected >Please Choose Job Type...</option>
                 <option *ngFor="let data of dataDropdownJobType" value="{{data.code}}" >{{data.jobTypeName}}</option>
               </select>
@@ -355,6 +361,7 @@
             <div class="form-group">
               <label for="">Detail <span style="color: red;">*</span></label>
               <textarea
+              [ngClass]="{'hasError': submitted === true && dataCreate.detail === '' }"
                 type="text"
                 class="form-control"
                 name="textDetail"
@@ -366,12 +373,12 @@
 
 
             <div class="form-group">
-              <label for="">In</label>
+              <label for="">In <span style="color: red;">*</span></label>
                <p-calendar
               name="timeIn"
+              [inputStyleClass]="(submitted === true && dataCreate.timeIn === null) ? 'hasError' : ''"
               [(ngModel)]="dataCreate.timeIn"
               [style]="{'width':'100%'}"
-              [inputStyle]="{'width':'100%'}"
               [showTime]="true"
               hourFormat="24"
               timeOnly="true"
@@ -383,8 +390,9 @@
 
 
             <div class="form-group">
-              <label for="">Out</label>
+              <label for="">Out <span style="color: red;">*</span></label>
               <p-calendar
+              [inputStyleClass]="(submitted === true && dataCreate.timeOut === null) ? 'hasError' : ''"
               hourFormat="24"
               name="timeOut"
               [(ngModel)]="dataCreate.timeOut"
@@ -393,6 +401,7 @@
               timeOnly="true"
               inputId="timeonly"
               [dateFormat]="'HH:mm'"
+
               >
             </p-calendar>
             </div>
@@ -416,7 +425,8 @@
 header="Detail"
 [modal]="true"
 [style]="{ width: '25vw' }"
-[baseZIndex]="10000"
+[baseZIndex]="100"
+[autoZIndex]="false"
 [draggable]="false"
 [resizable]="false"
 [dismissableMask]="true">

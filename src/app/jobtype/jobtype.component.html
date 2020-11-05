@@ -11,6 +11,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
     <div class="container">
       <button
+      routerLink="/"
       pButton
       pRipple
       label="Home"
@@ -71,7 +72,7 @@
   <div class="container">
     <div class="card">
       <div class="card-body">
-        <h5 style="text-align: center; color: rgb(73, 73, 73)">
+        <h5 style="text-align: center;">
           SEARCH JOB TYPE
         </h5>
         <br />
@@ -119,7 +120,7 @@
 
         <div class="row">
           <div class="col text-center">
-            <button (click)="fnSearchDataJobType()"  pButton type="button" label="Search" icon="pi pi-search" class="p-button-sm "></button>
+            <button (click)="fnSearchDataJobType()"  pButton type="button" label="Search" icon="pi pi-search" class="p-button-sm p-button-warning "></button>
             <span>&nbsp;&nbsp;</span>
             <button (click)="clickClear()" pButton type="button" label="Clear" icon="pi pi-times-circle" class="p-button-sm p-button-danger"></button>
           </div>
@@ -230,7 +231,8 @@
 [(visible)]="displayModal"
 [modal]="true"
 [style]="{ width: '50vw' }"
-[baseZIndex]="10000"
+[baseZIndex]="100"
+[autoZIndex]="false"
 [draggable]="false"
 [resizable]="false"
 [dismissableMask]="true"
@@ -242,8 +244,9 @@
         <form>
           <div class="col-12">
             <div class="form-group">
-              <label for="">Job Type Name </label>
+              <label for="">Job Type Name <span style="color: red;">*</span></label>
               <input
+              [ngClass]="{'hasError': submitted === true && jobTypeName === ''}"
               type="text"
               class="form-control"
               name="textjobTypeName"
@@ -252,8 +255,9 @@
             />
             </div>
             <div class="form-group">
-              <label for="">Code</label>
+              <label for="">Code <span style="color: red;">*</span></label>
               <input
+              [ngClass]="{'hasError': submitted === true && code === ''}"
                 type="text"
                 class="form-control"
                 name="textCode"
@@ -279,7 +283,7 @@
 header="Detail"
 [(visible)]="displayModalDetail"
 [modal]="true"
-[style]="{ width: '25vw' }"
+[style]="{ width: '50vw' }"
 [baseZIndex]="10000"
 [draggable]="false"
 [resizable]="false"
